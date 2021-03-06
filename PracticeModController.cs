@@ -24,6 +24,11 @@ namespace MaquettePracticeMod
 
 		private Scene _currentScene;
 
+		private Vector3 _storedPosition;
+		private Quaternion _storedRotation;
+		private float _storeTime, _teleportTime;
+		private string _storedMap;
+
 		bool triggersVisible;
 		List<GameObject> triggerGameObjects = new List<GameObject>();
 
@@ -80,6 +85,12 @@ namespace MaquettePracticeMod
 			_playerText.text = GetPlayerTextString();
 
 			player.GetComponent<CharacterController>().enabled = !_noclip;
+
+			if (Input.GetKeyDown(KeyCode.F5))
+				StorePosition();
+
+			if (Input.GetKeyDown(KeyCode.F6))
+				TeleportPosition();
 
 
 			if(_noclip)
@@ -165,6 +176,10 @@ namespace MaquettePracticeMod
 
 			if (_noclip)
 				dynamicInfo += "\nNoClip";
+			if (Time.time - this._storeTime <= 1f)
+				dynamicInfo += "\nPosition Stored";
+			if (Time.time - this._teleportTime <= 1f)
+				dynamicInfo += "\nTeleport";
 
 
 			return string.Concat(new object[]
@@ -203,6 +218,24 @@ namespace MaquettePracticeMod
 			{
 				if(gameObject != null && gameObject.activeSelf != triggersVisible)
 					gameObject.SetActive(triggersVisible);
+			}
+		}
+
+		void StorePosition()
+		{
+			_storedPosition = player.transform.position;
+			_storedRotation = player.transform.rotation;
+			_storeTime = Time.time;
+			_storedMap = _global.g.levelToLoad;
+		}
+
+		void TeleportPosition()
+		{
+			if (_storedMap == _global.g.levelToLoad)
+			{
+				player.transform.position = _storedPosition;
+				player.transform.rotation = _storedRotation;
+				_teleportTime = Time.time;
 			}
 		}
 	}

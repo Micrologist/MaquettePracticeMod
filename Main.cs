@@ -7,7 +7,7 @@ using MelonLoader;
 using UnityEngine;
 using Harmony;
 
-[assembly: MelonInfo(typeof(MaquettePracticeMod.Main), "Maquette Practice Mod", "0.2.1", "Micrologist#2351")]
+[assembly: MelonInfo(typeof(MaquettePracticeMod.Main), "Maquette Practice Mod", "0.3.0", "Micrologist#2351")]
 [assembly: MelonGame("Graceful Decay", "Maquette")]
 
 
